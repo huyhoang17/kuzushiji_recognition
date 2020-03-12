@@ -1,3 +1,11 @@
+# custom
+*.ipynb
+models
+cps
+data
+logs
+media
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
