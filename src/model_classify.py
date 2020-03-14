@@ -1,14 +1,23 @@
 from tensorflow.keras import layers
 from tensorflow.keras import models
 
+from consts import (
+    IMG_SIZE_CLASSIFY,
+    NO_CLASSES
+)
 from resnet import residual_block
 
 
 def resnet_backbone(input_layer,
                     no_classes=3422,
+                    no_channels=3,
                     start_neurons=32,
                     dropout_rate=0.1):
-    # input_data = layers.Input(name='the_input', shape=IMG_SIZE + (1, ), dtype='float32')  # noqa
+    input_layer = layers.Input(
+        name='input_image',
+        shape=(IMG_SIZE_CLASSIFY, IMG_SIZE_CLASSIFY, no_channels),
+        dtype='float32'
+    )
 
     for index, i in enumerate([1, 2, 2, 4, 8]):
         if index == 0:
@@ -32,8 +41,8 @@ def resnet_backbone(input_layer,
 
 
 if __name__ == '__main__':
-    input_layer = layers.Input(
-        name='input_image', shape=(64, 64, 3), dtype='float32'
+
+    cnet = resnet_backbone(
+        no_classes=NO_CLASSES
     )
-    cnet = resnet_backbone(input_layer)
     print(cnet.count_params(), cnet.inputs, cnet.outputs)

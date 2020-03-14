@@ -137,7 +137,7 @@ def score_page(preds, truth, recognize=False):
 
     for xmin, xmax, ymin, ymax, label in \
             zip(truth_xmin, truth_xmax, truth_ymin, truth_ymax, truth_label):
-        # Matching = point inside box & character same & prediction not already used
+        # Matching = point inside box & character same & prediction not already used  # noqa
         matching = (xmin < preds_x) & (xmax > preds_x) & (ymin < preds_y) & (
             ymax > preds_y)
         if recognize:

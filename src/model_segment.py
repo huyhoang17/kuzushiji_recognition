@@ -1,8 +1,8 @@
 from tensorflow.keras import layers
+from tensorflow.keras import models
 
+from consts import IMG_SIZE_SEGMENT
 from resnet import residual_block
-
-IMG_SIZE = 512
 
 
 def resnet_unet(img_size=(512, 512),
@@ -81,6 +81,7 @@ def resnet_unet(img_size=(512, 512),
     # output mask
     output_layer = layers.Conv2D(
         2, (1, 1), padding="same", activation=None)(uconv1)
+
     # 2 classes: character mask & center point mask
     output_layer = layers.Activation('sigmoid')(output_layer)
 
@@ -91,7 +92,7 @@ def resnet_unet(img_size=(512, 512),
 if __name__ == '__main__':
 
     net = resnet_unet(
-        img_size=(IMG_SIZE, IMG_SIZE),
+        img_size=(IMG_SIZE_SEGMENT, IMG_SIZE_SEGMENT),
         no_channels=3,
         start_neurons=16
     )

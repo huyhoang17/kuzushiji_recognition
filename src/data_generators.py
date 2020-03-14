@@ -1,4 +1,14 @@
+import cv2
+import numpy as np
 import tensorflow
+from tensorflow.keras.utils import to_categorical
+
+from utils import (
+    norm_mean_std,
+    resize_padding,
+    load_image,
+    load_mask
+)
 
 
 class KuzuDataGenerator(tensorflow.keras.utils.Sequence):
@@ -12,6 +22,7 @@ class KuzuDataGenerator(tensorflow.keras.utils.Sequence):
                  img_size=(512, 512),
                  no_channels=3,
                  n_classes=2,
+                 mask_thres=0.5,
                  augment=None,
                  shuffle=True,
                  debug=False):
@@ -27,6 +38,7 @@ class KuzuDataGenerator(tensorflow.keras.utils.Sequence):
         self.ids = range(len(self.img_fps))
 
         self.n_classes = n_classes
+        self.mask_thres = mask_thres
         self.augment = augment
         self.shuffle = shuffle
         self.on_epoch_end()
@@ -44,7 +56,6 @@ class KuzuDataGenerator(tensorflow.keras.utils.Sequence):
         return X, y
 
     def on_epoch_end(self):
-        'Updates indexes after each epoch'
         self.indexes = np.arange(len(self.ids))
         if self.shuffle:
             np.random.shuffle(self.indexes)
@@ -59,14 +70,15 @@ class KuzuDataGenerator(tensorflow.keras.utils.Sequence):
             img = cv2.imread(self.img_fps[id_])[:, :, ::-1]  # BGR2RGB
             mask = load_mask(img, self.labels[id_])
             mask = cv2.resize(mask, self.img_size)
+
+            # tuning mask
+            mask[mask >= self.mask_thres] = 1
+            mask[mask < self.mask_thres] = 0
+
             img = load_image(img, img_size=self.img_size, expand=False)
 
             if img is None or mask is None:
                 continue
-
-            # add padding and resize to fix size
-            img = resize_padding(img, 512)
-            mask = resize_padding(mask, 512)
 
             # add augmentation
             if self.augment is not None:
@@ -132,17 +144,14 @@ class KuzuCharClassifyGenerator(tensorflow.keras.utils.Sequence):
         return X, y
 
     def on_epoch_end(self):
-        'Updates indexes after each epoch'
         self.indexes = np.arange(len(self.ids))
         if self.shuffle:
             np.random.shuffle(self.indexes)
 
     def __data_generation(self, ids):
-        # Initialization
         X = np.empty((0, *self.img_size, self.no_channels))
         y = []
 
-        # Generate data
         for index, id_ in enumerate(ids):
             img = cv2.imread(self.img_fps[id_])[:, :, ::-1]
             label = self.labels[id_]
