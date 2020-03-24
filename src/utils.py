@@ -3,7 +3,7 @@ import time
 from functools import wraps
 
 import cv2
-from PIL import Image, ImageDraw, ImageFont
+from PIL import Image, ImageDraw
 import numpy as np
 import matplotlib.pyplot as plt
 import matplotlib.image as mpimg

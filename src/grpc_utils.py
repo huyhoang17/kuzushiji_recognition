@@ -1,15 +1,10 @@
 import os
-import math
-import time
-import functools
 import joblib
-import random
 
-from tqdm import tqdm
 import cv2
 import numpy as np
-import matplotlib.pyplot as plt
-from PIL import Image, ImageDraw, ImageFont
+
+
 import tensorflow as tf
 from tensorflow_serving.apis import (
     predict_pb2,
@@ -17,17 +12,7 @@ from tensorflow_serving.apis import (
 )
 import grpc
 
-from utils import (
-    make_contours,
-    get_centers,
-    get_labels,
-    vis_pred_bbox,
-    filter_polygons_points_intersection,
-    vis_pred_bbox_polygon,
-    vis_pred_center,
-    norm_mean_std,
-    minmax_scaler
-)
+from utils import norm_mean_std
 
 
 class KuzuSegment:
