@@ -30,7 +30,7 @@ cd kuzushiji_recognition
 pip install -r requirements.txt
 ```
 
-- Install `Git LFS` and pull model files, follow by this [tutorial](https://www.atlassian.com/git/tutorials/git-lfs#pulling-and-checking-out)
+- [Optional] Install `Git LFS` and pull model files, follow by this [tutorial](https://www.atlassian.com/git/tutorials/git-lfs#pulling-and-checking-out)
 
 - Open kuzu_tfserving.config on editor, change `base_path` of 2 models to absolute path to each sub-folder
 
@@ -41,6 +41,8 @@ base_path: '/home/phan.huy.hoang/workspace/projects/kaggle_kuzushiji/model_serve
 # to
 base_path: '/absolute-path-to-root-folder/model_server/kuzu_segment'
 ```
+
+- Install `tensorflow_model_server` from this [link](https://www.tensorflow.org/tfx/serving/setup)
 
 - Run tensorflow model server
 
