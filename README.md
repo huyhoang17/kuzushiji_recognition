@@ -1,6 +1,8 @@
 # Kuzushiji Recognition
 [Late Submission] Solution for kuzushiji recognition (kaggle competition)
 
+- Link blog post: [Building OCR module for Kuzushiji recognition](https://viblo.asia/p/V3m5WPngKO7)
+
 ### Segmentation model
 
 - Unet with custom resnet-based backbone
