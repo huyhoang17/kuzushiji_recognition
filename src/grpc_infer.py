@@ -134,5 +134,4 @@ if __name__ == '__main__':
 
     plt.imshow(char_img)
     plt.imshow(final_bbox, cmap="jet", alpha=0.50)
-    plt.savefig("./media/{}.jpg".format(time.time()), bbox_inches='tight')
-    # imageio.imwrite("../media/foo.jpg", )
+    plt.savefig("./assets/{}.jpg".format(time.time()), bbox_inches='tight')
