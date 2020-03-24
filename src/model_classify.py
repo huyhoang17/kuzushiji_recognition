@@ -8,8 +8,7 @@ from consts import (
 from resnet import residual_block
 
 
-def resnet_backbone(input_layer,
-                    no_classes=3422,
+def resnet_backbone(no_classes=3422,
                     no_channels=3,
                     start_neurons=32,
                     dropout_rate=0.1):

@@ -10,17 +10,20 @@ import matplotlib.image as mpimg
 from sklearn.cluster import KMeans
 from sklearn.externals import joblib
 from sklearn.preprocessing import LabelEncoder
+from skimage import measure
+from shapely.geometry import Point
+from shapely.geometry.polygon import Polygon
 import tensorflow as tf
 
 from consts import FONT_SIZE
 
 
-font = ImageFont.truetype(
-    '../fonts/NotoSansCJKjp-Regular.otf',
-    FONT_SIZE, encoding='utf-8'
-)
-with open("./models/le.pkl", "rb") as f:
-    le = joblib.load(f)
+# font = ImageFont.truetype(
+#     '../fonts/NotoSansCJKjp-Regular.otf',
+#     FONT_SIZE, encoding='utf-8'
+# )
+# with open("./models/le2.pkl", "rb") as f:
+#     le = joblib.load(f)
 
 
 def norm_mean_std(img):
@@ -397,3 +400,122 @@ def visual_pred_gt(model,
             cv2.rectangle(img, (x, y), (x + w, y + h), (0, 255, 255), 3)
 
     return img
+
+
+def make_contours(masks, flatten=True):
+    """
+    flatten: follow by coco's api
+    """
+    if masks.ndim == 2:
+        masks = np.expand_dims(masks, axis=-1)
+
+    masks = masks.transpose((2, 0, 1))
+
+    segment_objs = []
+    for mask in masks:
+        contours = measure.find_contours(mask, 0.5)
+        for contour in contours:
+            contour = np.flip(contour, axis=1)
+            if flatten:
+                segmentation = contour.ravel().tolist()
+            else:
+                segmentation = contour.tolist()
+            segment_objs.append(segmentation)
+
+    return segment_objs
+
+
+def filter_polygons_points_intersection(polygon_contours, center_coords):
+    """https://github.com/huyhoang17/machine-learning-snippets/blob/master/filter_polygons_points_intersection.py
+    """
+    # checking if polygon contains point
+    final_cons = []
+    for con in polygon_contours:
+        polygon = Polygon(zip(con[::2], con[1::2]))
+        for center in center_coords:
+            point = Point(center[1], center[0])
+            if polygon.contains(point):
+                final_cons.append(con)
+                break
+
+    return final_cons
+
+
+def vis_pred_bbox_polygon(pred_bbox, cons):
+    """
+    pred_bbox: 1st mask
+    cons: list contours return from `make_contours` method
+    """
+    mask_ = Image.new('1', (512, 512))
+    mask_draw = ImageDraw.ImageDraw(mask_, '1')
+
+    for contour in cons:
+        mask_draw.polygon(contour, fill=1)
+
+    mask_ = np.array(mask_).astype(np.uint8)
+    return mask_ * 255
+
+
+def vis_pred_center(center_points, rad=2, img_size=(512, 512)):
+
+    # center_points = get_centers(pred_center.astype(np.uint8))
+
+    img = np.zeros((512, 512))
+    pil_img = Image.fromarray(img).convert('RGBA')
+    center_canvas = Image.new('RGBA', pil_img.size)
+    center_draw = ImageDraw.Draw(center_canvas)
+
+    for point in center_points:
+        y, x = point
+        # x1, y1, x2, y2
+        center_draw.ellipse(
+            (x - rad, y - rad, x + rad, y + rad), fill='blue', outline='blue'
+        )
+
+    res_img = Image.alpha_composite(pil_img, center_canvas)
+    res_img = res_img.convert("RGB")
+    res_img = np.asarray(res_img)
+
+    return res_img
+
+
+def vis_pred_bbox(pred_bbox, center_coords, width=6):
+    """
+    pred_bbox: 1st mask
+    center_coords: list of center point coordinates [[x1, y1], [x2, y2], ...]
+    """
+
+    bbox_cluster = get_labels(center_coords, pred_bbox)
+
+    img = np.zeros((512, 512))
+    pil_img = Image.fromarray(img).convert('RGBA')
+    bbox_canvas = Image.new('RGBA', pil_img.size)
+    bbox_draw = ImageDraw.Draw(bbox_canvas)
+#     center_canvas = Image.new('RGBA', pil_img.size)
+#     center_draw = ImageDraw.Draw(center_canvas)
+
+    # exclude background index
+    for cluster_index in range(len(center_coords))[1:]:
+        char_pixel = (bbox_cluster == cluster_index).astype(np.float32)
+
+        horizontal_indicies = np.where(np.any(char_pixel, axis=0))[0]
+        vertical_indicies = np.where(np.any(char_pixel, axis=1))[0]
+        x_min, x_max = horizontal_indicies[[0, -1]]
+        y_min, y_max = vertical_indicies[[0, -1]]
+
+        # draw polygon
+        bbox_draw.rectangle(
+            (x_min, y_min, x_max, y_max), fill=(255, 255, 255, 0),
+            outline=(255, 0, 0, 255), width=width
+        )
+        # draw center
+
+    res_img = Image.alpha_composite(pil_img, bbox_canvas)
+    res_img = res_img.convert("RGB")
+    res_img = np.asarray(res_img)
+
+    # normalize image
+    res_img = res_img / 255
+    res_img = res_img.astype(np.float32)
+
+    return res_img

@@ -88,7 +88,7 @@ def train(img_fps, labels):
     history = net.fit_generator(
         train_generator,
         steps_per_epoch=len(train_generator),
-        epochs=5,
+        epochs=25,
         callbacks=callbacks_list,
         validation_data=val_generator,
         validation_steps=len(val_generator),
