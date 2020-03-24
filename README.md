@@ -64,6 +64,14 @@ python3 src/grpc_infer.py
 
 ![](./assets/result2.jpg)
 
+### TODO
+
+- Add pytorch code
+
+- Update docker / docker-compose
+
 ### Contact
 
-- hoangphan0710@gmail.com
+- If you find this repo useful, please star the project to let people know that it's reliable :star::star::star: Thank you!
+
+- For more information, please contact me at email address: hoangphan0710@gmail.com
