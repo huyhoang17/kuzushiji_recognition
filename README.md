@@ -58,9 +58,9 @@ python3 src/grpc_infer.py
 
 ### Result
 
-![](./assets/result1.png)
+![](./assets/result1.jpg)
 
-![](./assets/result2.png)
+![](./assets/result2.jpg)
 
 ### Contact
 
