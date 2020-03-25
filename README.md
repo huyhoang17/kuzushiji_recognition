@@ -1,3 +1,8 @@
+[![](https://forthebadge.com/images/badges/built-by-developers.svg)](https://forthebadge.com)
+[![](http://ForTheBadge.com/images/badges/made-with-python.svg)](https://www.python.org/)
+[![](http://ForTheBadge.com/images/badges/built-with-love.svg)](https://github.com/huyhoang17/kuzushiji_recognition/)
+[![](https://forthebadge.com/images/badges/makes-people-smile.svg)](https://forthebadge.com)
+
 # Kuzushiji Recognition
 [Late Submission] Solution for kuzushiji recognition (kaggle competition)
 
