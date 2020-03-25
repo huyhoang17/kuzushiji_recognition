@@ -8,10 +8,11 @@ from tqdm import tqdm
 import cv2
 import numpy as np
 import matplotlib.pyplot as plt
-from PIL import Image, ImageDraw, ImageFont
+from PIL import Image, ImageDraw
 from pylab import rcParams
 rcParams['figure.figsize'] = 20, 20  # noqa
 
+from consts import FONT_SIZE
 from utils import (
     make_contours,
     get_centers,
@@ -20,17 +21,11 @@ from utils import (
     filter_polygons_points_intersection,
     vis_pred_bbox_polygon,
     vis_pred_center,
+    font
 )
 from grpc_utils import (
     KuzuSegment,
     KuzuClassify
-)
-
-fontsize = 50
-font_fp = os.path.abspath('./fonts/NotoSansCJKjp-Regular.otf')
-assert os.path.exists(font_fp)
-font = ImageFont.truetype(
-    font_fp, fontsize, encoding='utf-8'
 )
 
 
@@ -116,7 +111,7 @@ if __name__ == '__main__':
                 # print(pred_label)
 
                 char_draw.text(
-                    (x + w + fontsize / 4, y + h / 2 - fontsize),
+                    (x + w + FONT_SIZE / 4, y + h / 2 - FONT_SIZE),
                     pred_label, fill=(0, 0, 255, 255),
                     font=font
                 )

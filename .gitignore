@@ -1,6 +1,5 @@
 # custom
 *.ipynb
-models
 cps
 data
 logs

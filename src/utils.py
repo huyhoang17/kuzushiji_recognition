@@ -1,29 +1,38 @@
 import copy
 import time
+import joblib
 from functools import wraps
 
 import cv2
-from PIL import Image, ImageDraw
+from PIL import Image, ImageDraw, ImageFont
 import numpy as np
 import matplotlib.pyplot as plt
 import matplotlib.image as mpimg
 from sklearn.cluster import KMeans
-from sklearn.externals import joblib
+# from sklearn.externals import joblib as skjoblib
 from sklearn.preprocessing import LabelEncoder
 from skimage import measure
 from shapely.geometry import Point
 from shapely.geometry.polygon import Polygon
 import tensorflow as tf
 
-from consts import FONT_SIZE
+from consts import (
+    FONT_SIZE,
+    FONT_FP,
+    LE_FP,
+    UNICODE_MAP_FP
+)
 
 
-# font = ImageFont.truetype(
-#     '../fonts/NotoSansCJKjp-Regular.otf',
-#     FONT_SIZE, encoding='utf-8'
-# )
-# with open("./models/le2.pkl", "rb") as f:
-#     le = joblib.load(f)
+font = ImageFont.truetype(
+    FONT_FP, FONT_SIZE, encoding="utf-8"
+)
+# load label encoder
+with open(LE_FP, "rb") as f:
+    le = joblib.load(f)
+# load unicode mapping
+with open(UNICODE_MAP_FP, "rb") as f:
+    unicode_map = joblib.load(f)
 
 
 def norm_mean_std(img):
@@ -332,7 +341,7 @@ def visual_pred_gt(model,
                    bbox_thres=0.01,
                    center_thres=0.02):
 
-    test_id = img_fp.split("/")[-1][:-4]
+    # test_id = img_fp.split("/")[-1][:-4]
     # img_labels = df_train[df_train["image_id"].isin(
     #     [test_id])]["labels"].values[0]
     char_labels = np.array(img_labels.split(' ')).reshape(-1, 5)

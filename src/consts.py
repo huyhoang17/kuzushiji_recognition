@@ -1,7 +1,13 @@
+import os
+
+
 # COMMON
 MODEL_FD = "../models"
 CPS_FD = "../cps"
 LOG_FD = "../logs"
+FONT_FP = os.path.abspath('./fonts/NotoSansCJKjp-Regular.otf')
+LE_FP = os.path.abspath("./models/le.pkl")
+UNICODE_MAP_FP = os.path.abspath("./models/unicode_map.pkl")
 
 FONT_SIZE = 50
 
