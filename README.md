@@ -75,15 +75,15 @@ python3 src/grpc_infer.py
 
 - I tested on [Chữ_Nôm](https://en.wikipedia.org/wiki/Ch%E1%BB%AF_N%C3%B4m) and used pre-trained detection model from kuzushiji dataset
 
-[Source 1](http://www.nomfoundation.org/nom-project/history-of-greater-vietnam/Fulltext/70-Trang-Tong-Du-Hoang-De?uiLang=en)
+[Đại Việt sử ký toàn thư](http://www.nomfoundation.org/nom-project/history-of-greater-vietnam/Fulltext/70-Trang-Tong-Du-Hoang-De?uiLang=en)
 
 ![](./assets/DaiViet_sukytoanthu.jpg)
 
-[Source 2](https://lib.nomfoundation.org/collection/2/volume/1262/page/1)
+[Chùa Thắng Nghiêm](https://lib.nomfoundation.org/collection/2/volume/1262/page/1)
 
 ![](./assets/chuathangnghiem.jpg)
 
-[Source 3](http://www.nomfoundation.org/nom-project/Luc-Van-Tien/Luc-Van-Tien-Text/Luc-Van-Tien-Text?uiLang=en)
+[Lục Vân Tiên](http://www.nomfoundation.org/nom-project/Luc-Van-Tien/Luc-Van-Tien-Text/Luc-Van-Tien-Text?uiLang=en)
 
 ![](./assets/lucvantien.jpg)
 
