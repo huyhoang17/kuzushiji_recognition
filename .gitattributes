@@ -1,8 +1,0 @@
-fonts/*.otf filter=lfs diff=lfs merge=lfs -text
-*.csv filter=lfs diff=lfs merge=lfs -text
-data/*.csv filter=lfs diff=lfs merge=lfs -text
-model_server/** filter=lfs diff=lfs merge=lfs -text
-images/** filter=lfs diff=lfs merge=lfs -text
-models/le.pkl filter=lfs diff=lfs merge=lfs -text
-assets/** filter=lfs diff=lfs merge=lfs -text
-models/unicode_map.pkl filter=lfs diff=lfs merge=lfs -text
