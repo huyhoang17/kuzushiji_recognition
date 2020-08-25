@@ -93,6 +93,10 @@ python3 src/grpc_infer.py
 
 - Update docker / docker-compose
 
+### Other issue
+
+- Move Git LFS tracked file under regular git: https://github.com/git-lfs/git-lfs/issues/3026#issuecomment-451598434
+
 ### Contact
 
 - If you find this repo useful, please star the project to let people know that it's reliable :star::star::star: Thank you!
