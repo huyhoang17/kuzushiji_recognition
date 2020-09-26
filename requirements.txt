@@ -28,7 +28,7 @@ scipy==1.4.1
 Shapely==1.7.0
 six==1.14.0
 tensorboard==1.14.0
-tensorflow==1.14.0
+tensorflow==1.15.4
 tensorflow-estimator==1.14.0
 tensorflow-serving-api==1.12.0
 termcolor==1.1.0
